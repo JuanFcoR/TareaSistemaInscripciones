@@ -1,0 +1,126 @@
+﻿@page "/rInscripciones";
+@using TareaSistemaInscripciones.Data
+@using TareaSistemaInscripciones.Models;
+@using TareaSistemaInscripciones.Controllers;
+<h3>RInscripciones</h3>
+<h3>@Estado</h3>
+<EditForm Model="ins" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <div>
+            <label for="InscripcionId">Inscripcion Id</label>
+        </div>
+        <div class="form-row">
+
+            <div class=" col col-md-4">
+                <InputNumber id="InscripcionId" @bind-Value="ins.InscripcionId" class="form-control"> </InputNumber>
+
+            </div>
+            <div class=" col col-md-6">
+                <button class="btn btn-primary" @onclick="Buscar">Buscar</button>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="SemestreText">Semestre: </label>
+        <InputText id="SemestreText" @bind-Value="ins.Semestre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="LimiteNumber">Limite: </label>
+        <InputNumber id="LimiteNumber" @bind-Value="ins.Limite" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="TomadosNumber">Tomados: </label>
+        <InputNumber id="TomadosNumber" @bind-Value="ins.Tomados" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="DisponiblesNumb">Disponibles: </label>
+        <InputNumber id="DisponiblesNumb" @bind-Value="ins.Disponibles" class="form-control" ReadOnly="true" @onchange="Calcular" @onfocusin="Calcular" @onfocusout="Calcular" />
+    </div>
+    <div class="form-group">
+        <div class="form-row">
+            <button class="btn btn-primary" type="button" @onclick="Nuevo">Nuevo</button>
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <button class="btn btn-danger" type="button" @onclick="Eliminar">Eliminar</button>
+        </div>
+    </div>
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    Inscripciones ins = new Inscripciones();
+    public string Estado = "Nada";
+    public void Buscar()
+    {
+        try
+        {
+            Inscripciones temp;
+            temp = InscripcionesController.Buscar(ins.InscripcionId);
+            if (temp != null)
+            {
+                ins = temp;
+                Estado = "Se Encontro";
+            }
+
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public void Nuevo()
+    {
+        ins = new Inscripciones();
+    }
+
+    public void Calcular()
+    {
+        if (ins.Tomados <= ins.Limite)
+        {
+            int Disp;
+            Disp = ins.Limite - ins.Tomados;
+            ins.Disponibles = Disp;
+        }
+        else
+        {
+            Estado = "No se puede tomar mas que el limite";
+        }
+
+
+    }
+
+    public void Guardar()
+    {
+        if (ins.Tomados <= ins.Limite)
+        {
+            Calcular();
+            //InscripcionController.Guardar(ins);
+            Estado = InscripcionesController.Guardando(ins);
+
+        }
+        else
+        {
+            Estado = "No se puede tomar mas que el limite";
+        }
+
+
+
+
+    }
+    public void Eliminar()
+    {
+        if (ins.InscripcionId == 0)
+        {
+            Estado = "No se puede borrar algo que no existe";
+        }
+        else
+        {
+            InscripcionesController.Eliminar(ins.InscripcionId);
+            Nuevo();
+        }
+    }
+}

@@ -1,0 +1,49 @@
+﻿@page "/LInscripcion"
+@using TareaSistemaInscripciones.Data;
+@using TareaSistemaInscripciones.Models;
+@using TareaSistemaInscripciones.Controllers;
+<h3>LInscripcion</h3>
+
+
+@if (Lista == null)
+{
+    <p> <em> Cargando ... </em> </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>InscripcionId</th>
+                <th>Semestre</th>
+                <th>Limite</th>
+                <th>Tomados</th>
+                <th>Disponibles</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var listar in Lista)
+            {
+                <tr>
+                    <td>@listar.InscripcionId</td>
+                    <td>@listar.Semestre</td>
+                    <td>@listar.Limite</td>
+                    <td>@listar.Tomados</td>
+                    <td>@listar.Disponibles</td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+}
+
+
+
+@code {
+    List<Inscripciones> Lista;
+    protected override async Task OnInitializedAsync()
+    {
+        Lista = InscripcionesController.GetList(p => true);
+    }
+}
