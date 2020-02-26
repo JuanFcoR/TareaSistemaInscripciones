@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 using TareaSistemaInscripciones.Data;
 using TareaSistemaInscripciones.Models;
 
-namespace TareaSistemaInscripciones.Controllers
+namespace TareaSistemaAsignaturas.Controllers
 {
-    public class InscripcionesController
+    public class AsignaturasController
     {
-        public static string Guardando(Inscripciones inscripcion)
+        public static string Guardando(Asignaturas inscripcion)
         {
             string estado = String.Empty;
             try
             {
-                if (inscripcion.InscripcionId == 0)
+                if (inscripcion.AsignaturaId == 0)
                 {
                     Guardar(inscripcion);
                     estado = "Guardo!!";
@@ -31,12 +31,12 @@ namespace TareaSistemaInscripciones.Controllers
             catch (Exception)
             {
 
-               throw;
+                throw;
             }
             return estado;
 
         }
-        public static bool Guardar(Inscripciones inscripcion)
+        public static bool Guardar(Asignaturas inscripcion)
         {
             bool paso = true;
             Contexto contexto = new Contexto();
@@ -44,7 +44,7 @@ namespace TareaSistemaInscripciones.Controllers
             try
             {
 
-                contexto.Inscripciones.Add(inscripcion);
+                contexto.Asignaturas.Add(inscripcion);
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -56,7 +56,7 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static bool Modificar(Inscripciones inscripcion)
+        public static bool Modificar(Asignaturas inscripcion)
         {
             Contexto c = new Contexto();
             bool paso = false;
@@ -76,14 +76,14 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static Inscripciones Buscar(int id)
+        public static Asignaturas Buscar(int id)
         {
-            Inscripciones ins;
+            Asignaturas ins;
             Contexto c = new Contexto();
             try
             {
 
-                ins = c.Inscripciones.Find(id);
+                ins = c.Asignaturas.Find(id);
                 c.SaveChanges();
 
             }
@@ -103,8 +103,8 @@ namespace TareaSistemaInscripciones.Controllers
             Contexto c = new Contexto();
             try
             {
-                Inscripciones ins = c.Inscripciones.Find(id);
-                c.Inscripciones.Remove(ins);
+                Asignaturas ins = c.Asignaturas.Find(id);
+                c.Asignaturas.Remove(ins);
 
                 c.SaveChanges();
             }
@@ -117,13 +117,13 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static List<Inscripciones> GetList(Expression<Func<Inscripciones, bool>> expression)
+        public static List<Asignaturas> GetList(Expression<Func<Asignaturas, bool>> expression)
         {
             Contexto c = new Contexto();
-            List<Inscripciones> Lista;
+            List<Asignaturas> Lista;
             try
             {
-                Lista = c.Inscripciones.Where(p => true).ToList();
+                Lista = c.Asignaturas.Where(p => true).ToList();
 
             }
             catch (Exception)

@@ -9,14 +9,14 @@ using TareaSistemaInscripciones.Models;
 
 namespace TareaSistemaInscripciones.Controllers
 {
-    public class InscripcionesController
+    public class EstudiantesController
     {
-        public static string Guardando(Inscripciones inscripcion)
+        public static string Guardando(Estudiantes inscripcion)
         {
             string estado = String.Empty;
             try
             {
-                if (inscripcion.InscripcionId == 0)
+                if (inscripcion.EstudianteId == 0)
                 {
                     Guardar(inscripcion);
                     estado = "Guardo!!";
@@ -31,12 +31,12 @@ namespace TareaSistemaInscripciones.Controllers
             catch (Exception)
             {
 
-               throw;
+                throw;
             }
             return estado;
 
         }
-        public static bool Guardar(Inscripciones inscripcion)
+        public static bool Guardar(Estudiantes inscripcion)
         {
             bool paso = true;
             Contexto contexto = new Contexto();
@@ -44,7 +44,7 @@ namespace TareaSistemaInscripciones.Controllers
             try
             {
 
-                contexto.Inscripciones.Add(inscripcion);
+                contexto.Estudiantes.Add(inscripcion);
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -56,7 +56,7 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static bool Modificar(Inscripciones inscripcion)
+        public static bool Modificar(Estudiantes inscripcion)
         {
             Contexto c = new Contexto();
             bool paso = false;
@@ -76,14 +76,14 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static Inscripciones Buscar(int id)
+        public static Estudiantes Buscar(int id)
         {
-            Inscripciones ins;
+            Estudiantes ins;
             Contexto c = new Contexto();
             try
             {
 
-                ins = c.Inscripciones.Find(id);
+                ins = c.Estudiantes.Find(id);
                 c.SaveChanges();
 
             }
@@ -103,8 +103,8 @@ namespace TareaSistemaInscripciones.Controllers
             Contexto c = new Contexto();
             try
             {
-                Inscripciones ins = c.Inscripciones.Find(id);
-                c.Inscripciones.Remove(ins);
+                Estudiantes ins = c.Estudiantes.Find(id);
+                c.Estudiantes.Remove(ins);
 
                 c.SaveChanges();
             }
@@ -117,13 +117,13 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static List<Inscripciones> GetList(Expression<Func<Inscripciones, bool>> expression)
+        public static List<Estudiantes> GetList(Expression<Func<Estudiantes, bool>> expression)
         {
             Contexto c = new Contexto();
-            List<Inscripciones> Lista;
+            List<Estudiantes> Lista;
             try
             {
-                Lista = c.Inscripciones.Where(p => true).ToList();
+                Lista = c.Estudiantes.Where(p => true).ToList();
 
             }
             catch (Exception)
