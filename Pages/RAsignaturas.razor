@@ -1,0 +1,103 @@
+﻿<h3>RAsignaturas</h3>
+@page "/rAsignaturas";
+@using TareaSistemaInscripciones.Data
+@using TareaSistemaInscripciones.Models;
+@using TareaSistemaInscripciones.Controllers;
+
+<h3>@Estado</h3>
+<EditForm Model="ins" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <div>
+            <label for="AsignaturaId">Asignatura Id</label>
+        </div>
+        <div class="form-row">
+
+            <div class=" col col-md-4">
+                <InputNumber id="AsignaturaId" @bind-Value="ins.AsignaturaId" class="form-control"> </InputNumber>
+
+            </div>
+            <div class=" col col-md-6">
+                <button class="btn btn-primary" @onclick="Buscar">Buscar</button>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="CodigoText">Codigo: </label>
+        <InputText id="CodigoText" @bind-Value="ins.Codigo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="DescripcionText">Descripcion: </label>
+        <InputText id="DescripcionText" @bind-Value="ins.Descripcion" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="PreRequisitoText">Prerequisito: </label>
+        <InputText id="PreRquisitoText" @bind-Value="ins.PreRequisito" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="CreditosNumber">Tomados: </label>
+        <InputNumber id="CreditosNumber" @bind-Value="ins.Creditos" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <div class="form-row">
+            <button class="btn btn-primary" type="button" @onclick="Nuevo">Nuevo</button>
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <button class="btn btn-danger" type="button" @onclick="Eliminar">Eliminar</button>
+        </div>
+    </div>
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    Asignaturas ins = new Asignaturas();
+    public string Estado = "Nada";
+    public void Buscar()
+    {
+        try
+        {
+            Asignaturas temp;
+            temp = AsignaturasController.Buscar(ins.AsignaturaId);
+            if (temp != null)
+            {
+                ins = temp;
+                Estado = "Se Encontro";
+            }
+
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public void Nuevo()
+    {
+        ins = new Asignaturas();
+    }
+
+
+    public void Guardar()
+    {
+
+        //AsignaturaController.Guardar(ins);
+        Estado = AsignaturasController.Guardando(ins);
+
+    }
+    public void Eliminar()
+    {
+        if (ins.AsignaturaId == 0)
+        {
+            Estado = "No se puede borrar algo que no existe";
+        }
+        else
+        {
+            AsignaturasController.Eliminar(ins.AsignaturaId);
+            Nuevo();
+        }
+    }
+}

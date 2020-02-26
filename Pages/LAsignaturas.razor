@@ -1,0 +1,52 @@
+﻿<h3>LAsignaturas</h3>
+@using TareaSistemaInscripciones.Data;
+@using TareaSistemaInscripciones.Models;
+@using TareaSistemaInscripciones.Controllers;
+<h3>LInscripcion</h3>
+
+
+@if (Lista == null)
+{
+    <p> <em> Cargando ... </em> </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>AsignaturaId</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Prerequisito</th>
+                <th>Creditos</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var listar in Lista)
+            {
+            <tr>
+                <td>@listar.AsignaturaId</td>
+                <td>@listar.Codigo</td>
+                <td>@listar.Descripcion</td>
+                <td>@listar.PreRequisito</td>
+                <td>@listar.Creditos</td>
+
+            </tr>
+            }
+        </tbody>
+
+
+    </table>
+}
+
+
+
+@code {
+    List<Asignaturas> Lista;
+    protected override async Task OnInitializedAsync()
+    {
+        Lista = AsignaturasController.GetList(p => true);
+    }
+}
+
