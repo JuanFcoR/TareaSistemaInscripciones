@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TareaSistemaInscripciones.Data;
 using TareaSistemaInscripciones.Models;
 
-namespace TareaSistemaAsignaturas.Controllers
+namespace TareaSistemaInscripciones.Controllers
 {
     public class AsignaturasController
     {
