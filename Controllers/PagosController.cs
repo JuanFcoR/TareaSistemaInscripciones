@@ -9,45 +9,42 @@ using TareaSistemaInscripciones.Models;
 
 namespace TareaSistemaInscripciones.Controllers
 {
-    public class InscripcionesController
+    public class PagosController
     {
-        public static string Guardando(Inscripciones inscripcion)
+        public static string Guardando(Pagos Pago)
         {
             string estado = String.Empty;
             try
             {
-                if (inscripcion.InscripcionId == 0)
+                if (Pago.PagoId == 0)
                 {
-                    Guardar(inscripcion);
+                    Guardar(Pago);
                     estado = "Guardo!!";
 
                 }
                 else
                 {
-                    Modificar(inscripcion);
+                    Modificar(Pago);
                     estado = "Modifico!!";
                 }
             }
             catch (Exception)
             {
 
-               throw;
+                throw;
             }
             return estado;
 
         }
-        public static bool Guardar(Inscripciones inscripcion)
+        public static bool Guardar(Pagos Pago)
         {
             bool paso = true;
             Contexto contexto = new Contexto();
-           // EstudiantesController controller = new EstudiantesController();
 
             try
             {
-                Estudiantes est = EstudiantesController.Buscar(inscripcion.EstudianteId);
-                est.Balance += inscripcion.Balance;
-                EstudiantesController.Modificar(est);
-                contexto.Inscripciones.Add(inscripcion);
+
+                contexto.Pagos.Add(Pago);
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -59,31 +56,13 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static bool Modificar(Inscripciones inscripcion)
+        public static bool Modificar(Pagos Pago)
         {
             Contexto c = new Contexto();
             bool paso = false;
             try
             {
-                var anterior = Buscar(inscripcion.InscripcionId);
-                foreach(var asignatura in inscripcion.Detalle)
-                {
-                    if(asignatura.InscripcionId==0)
-                    {
-                        c.Entry(asignatura).State = EntityState.Added;
-                    }
-                }
-                foreach (var item in anterior.Detalle)
-                {
-                    if(!inscripcion.Detalle.Any(P=>P.AsignaturaId== item.AsignaturaId))
-                    {
-                        c.Entry(item).State = EntityState.Deleted;
-                    }
-                }
-                Estudiantes est = EstudiantesController.Buscar(inscripcion.EstudianteId);
-                Inscripciones inscripciones = InscripcionesController.Buscar(inscripcion.InscripcionId);
-
-                if (c.Entry(inscripcion).State == EntityState.Modified)
+                if (c.Entry(Pago).State == EntityState.Modified)
                 {
                     paso = c.SaveChanges() > 0;
                 }
@@ -97,14 +76,14 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static Inscripciones Buscar(int id)
+        public static Pagos Buscar(int id)
         {
-            Inscripciones ins;
+            Pagos ins;
             Contexto c = new Contexto();
             try
             {
 
-                ins = c.Inscripciones.Find(id);
+                ins = c.Pagos.Find(id);
                 c.SaveChanges();
 
             }
@@ -124,8 +103,8 @@ namespace TareaSistemaInscripciones.Controllers
             Contexto c = new Contexto();
             try
             {
-                Inscripciones ins = c.Inscripciones.Find(id);
-                c.Inscripciones.Remove(ins);
+                Pagos ins = c.Pagos.Find(id);
+                c.Pagos.Remove(ins);
 
                 c.SaveChanges();
             }
@@ -138,13 +117,13 @@ namespace TareaSistemaInscripciones.Controllers
             return paso;
         }
 
-        public static List<Inscripciones> GetList(Expression<Func<Inscripciones, bool>> expression)
+        public static List<Pagos> GetList(Expression<Func<Pagos, bool>> expression)
         {
             Contexto c = new Contexto();
-            List<Inscripciones> Lista;
+            List<Pagos> Lista;
             try
             {
-                Lista = c.Inscripciones.Where(p => true).ToList();
+                Lista = c.Pagos.Where(p => true).ToList();
 
             }
             catch (Exception)

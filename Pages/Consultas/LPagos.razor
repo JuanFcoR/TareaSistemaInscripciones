@@ -1,8 +1,10 @@
-﻿@page "/LInscripcion"
+﻿<h3>LPagos</h3>
+@page "/Consultas/LPagos"
+<h3>LPagos</h3>
 @using TareaSistemaInscripciones.Data;
 @using TareaSistemaInscripciones.Models;
 @using TareaSistemaInscripciones.Controllers;
-<h3>LInscripcion</h3>
+
 
 
 @if (Lista == null)
@@ -14,22 +16,24 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>PagoId</th>
+                <th>Fecha</th>
                 <th>InscripcionId</th>
-                <th>Semestre</th>
-                <th>Limite</th>
-                <th>Tomados</th>
-                <th>Disponibles</th>
+                <th>Monto</th>
+                
+
             </tr>
         </thead>
         <tbody>
             @foreach (var listar in Lista)
             {
                 <tr>
+                    <td>@listar.PagoId</td>
+                    <td>@listar.Fecha</td>
                     <td>@listar.InscripcionId</td>
-                    <td>@listar.Semestre</td>
-                    <td>@listar.Limite</td>
-                    <td>@listar.Tomados</td>
-                    <td>@listar.Disponibles</td>
+                    <td>@listar.Monto</td>
+                   
+
                 </tr>
             }
         </tbody>
@@ -41,9 +45,10 @@ else
 
 
 @code {
-    List<Inscripciones> Lista;
+    List<Pagos> Lista;
     protected override async Task OnInitializedAsync()
     {
-        Lista = InscripcionesController.GetList(p => true);
+        Lista = PagosController.GetList(p => true);
     }
 }
+

@@ -1,20 +1,20 @@
-﻿<h3>RAsignaturas</h3>
-@page "/rAsignaturas";
+﻿<h3>REstudiantes</h3>
+@page "/Registros/rEstudiantes";
 @using TareaSistemaInscripciones.Data
 @using TareaSistemaInscripciones.Models;
 @using TareaSistemaInscripciones.Controllers;
-
+<h3>REstudiantees</h3>
 <h3>@Estado</h3>
 <EditForm Model="ins" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="form-group">
         <div>
-            <label for="AsignaturaId">Asignatura Id</label>
+            <label for="EstudianteId">Estudiante Id</label>
         </div>
         <div class="form-row">
 
             <div class=" col col-md-4">
-                <InputNumber id="AsignaturaId" @bind-Value="ins.AsignaturaId" class="form-control"> </InputNumber>
+                <InputNumber id="EstudianteId" @bind-Value="ins.EstudianteId" class="form-control"> </InputNumber>
 
             </div>
             <div class=" col col-md-6">
@@ -25,21 +25,16 @@
 
     </div>
     <div class="form-group">
-        <label for="CodigoText">Codigo: </label>
-        <InputText id="CodigoText" @bind-Value="ins.Codigo" class="form-control" />
+        <label for="MatriculaNumber">Matricula: </label>
+        <InputNumber id="MatriculaNumber" @bind-Value="ins.Matricula" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="DescripcionText">Descripcion: </label>
-        <InputText id="DescripcionText" @bind-Value="ins.Descripcion" class="form-control" />
+        <label for="NombresText">Nombres: </label>
+        <InputText id="NombresText" @bind-Value="ins.Nombres" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="PreRequisitoText">Prerequisito: </label>
-        <InputText id="PreRquisitoText" @bind-Value="ins.PreRequisito" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="CreditosNumber">Tomados: </label>
-        <InputNumber id="CreditosNumber" @bind-Value="ins.Creditos" class="form-control" />
+        <label for="BalanceNumber">Tomados: </label>
+        <InputNumber id="BalanceNumber" @bind-Value="ins.Balance" class="form-control" />
     </div>
 
     <div class="form-group">
@@ -53,14 +48,14 @@
 </EditForm>
 
 @code {
-    Asignaturas ins = new Asignaturas();
+    Estudiantes ins = new Estudiantes();
     public string Estado = "Nada";
     public void Buscar()
     {
         try
         {
-            Asignaturas temp;
-            temp = AsignaturasController.Buscar(ins.AsignaturaId);
+            Estudiantes temp;
+            temp = EstudiantesController.Buscar(ins.EstudianteId);
             if (temp != null)
             {
                 ins = temp;
@@ -77,26 +72,26 @@
     }
     public void Nuevo()
     {
-        ins = new Asignaturas();
+        ins = new Estudiantes();
     }
 
 
     public void Guardar()
     {
-
-        //AsignaturaController.Guardar(ins);
-        Estado = AsignaturasController.Guardando(ins);
+        
+            //EstudianteController.Guardar(ins);
+            Estado = EstudiantesController.Guardando(ins);
 
     }
     public void Eliminar()
     {
-        if (ins.AsignaturaId == 0)
+        if (ins.EstudianteId == 0)
         {
             Estado = "No se puede borrar algo que no existe";
         }
         else
         {
-            AsignaturasController.Eliminar(ins.AsignaturaId);
+            EstudiantesController.Eliminar(ins.EstudianteId);
             Nuevo();
         }
     }

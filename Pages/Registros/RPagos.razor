@@ -1,0 +1,100 @@
+﻿<h3>RPagos</h3>
+
+@page "/Registros/rPagos";
+@using TareaSistemaInscripciones.Data
+@using TareaSistemaInscripciones.Models;
+@using TareaSistemaInscripciones.Controllers;
+
+<h3>@Estado</h3>
+<EditForm Model="ins" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <div>
+            <label for="PagoId">Pago Id</label>
+        </div>
+        <div class="form-row">
+
+            <div class=" col col-md-4">
+                <InputNumber id="PagoId" @bind-Value="ins.PagoId" class="form-control"> </InputNumber>
+
+            </div>
+            <div class=" col col-md-6">
+                <button class="btn btn-primary" @onclick="Buscar">Buscar</button>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="FechaDate">Fecha: </label>
+        <InputDate id="FechaDate" @bind-Value="ins.Fecha" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="InscripcionIdNumber">IncripcionId: </label>
+        <InputNumber id="InscripcionIdNumber" @bind-Value="ins.InscripcionId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="MontoNumber">Tomados: </label>
+        <InputNumber id="Monto.Number" @bind-Value="ins.Monto" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <div class="form-row">
+            <button class="btn btn-primary" type="button" @onclick="Nuevo">Nuevo</button>
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <button class="btn btn-danger" type="button" @onclick="Eliminar">Eliminar</button>
+        </div>
+    </div>
+    <ValidationSummary />
+</EditForm>
+
+@code {
+        Pagos ins = new Pagos();
+public string Estado = "Nada";
+    public void Buscar()
+    {
+        try
+        {
+            Pagos temp;
+            temp = PagosController.Buscar(ins.PagoId);
+            if (temp != null)
+            {
+                ins = temp;
+                Estado = "Se Encontro";
+            }
+
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public void Nuevo()
+    {
+        ins = new Pagos();
+    }
+
+
+    public void Guardar()
+    {
+
+        //PagoController.Guardar(ins);
+        Estado = PagosController.Guardando(ins);
+
+    }
+    public void Eliminar()
+    {
+        if (ins.PagoId == 0)
+        {
+            Estado = "No se puede borrar algo que no existe";
+        }
+        else
+        {
+            PagosController.Eliminar(ins.PagoId);
+            Nuevo();
+        }
+    }
+}
